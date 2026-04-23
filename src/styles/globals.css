@@ -46,3 +46,11 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 14px; }
+}

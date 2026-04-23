@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
+import WalletButton from './WalletButton';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -114,9 +115,7 @@ export default function Navbar() {
         {/* Right side */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div className="desktop-nav">
-            <Button variant="ghost" size="sm">
-              Connect Wallet
-            </Button>
+            <WalletButton />
           </div>
 
           {/* Hamburger — mobile only */}
@@ -214,9 +213,7 @@ export default function Navbar() {
               ))}
 
               <div style={{ marginTop: '24px' }}>
-                <Button variant="ghost" size="md">
-                  Connect Wallet
-                </Button>
+                <WalletButton />
               </div>
             </motion.div>
           </>
