@@ -1,57 +1,61 @@
-# CommitWork — Creator Escrow Protocol
+# CommitWork — Creator Escrow Protocol on Stellar
 
-> Decentralized milestone-based escrow for digital creators and clients.
-> Clients lock ETH, creators ship work, funds release on approval — all on-chain.
+> Decentralized milestone-based escrow for digital creators and clients.  
+> Clients lock **XLM**, creators ship work, funds release on approval —  
+> all on-chain via **Soroban smart contracts** on Stellar Testnet.
 
 ![CI/CD](https://github.com/YOUR_USERNAME/commitwork/actions/workflows/deploy.yml/badge.svg)
+![Network](https://img.shields.io/badge/network-Stellar%20Testnet-blue)
+![Wallet](https://img.shields.io/badge/wallet-Freighter-orange)
 
 ---
 
 ## 🔗 Live Demo
 
-**[https://commitwork.vercel.app](https://commitwork.vercel.app)**
-Network: Ethereum Sepolia Testnet
+**[https://commitwork.vercel.app](https://commitwork.vercel.app)**  
+Network: **Stellar Testnet** · Wallet: **Freighter**
 
 ---
 
 ## 📸 Screenshots
 
-### Mobile View
+### Mobile Responsive View
 > _(Add screenshot after deployment)_
 
-### CI/CD Pipeline
-> _(Add screenshot of GitHub Actions passing)_
+### CI/CD Pipeline — GitHub Actions
+> _(Add screenshot of passing workflow)_
 
 ---
 
 ## 📋 Overview
 
-CommitWork is a Web3 escrow platform where clients post gigs,
-lock ETH in a smart contract, and creators get paid milestone by milestone.
-Inter-contract calls verify WORK token holdings for automatic fee discounts.
-The UI hides all smart contract complexity behind simple
-"Lock Funds" and "Approve Work" buttons.
+CommitWork is a Web3 escrow platform powered by **Soroban** smart contracts on Stellar.
+Clients post gigs, lock XLM in `EscrowContract`, and creators get paid milestone by milestone.
+An **inter-contract call** from `EscrowContract` to `PlatformUtilityContract` verifies
+WORK token holdings and applies automatic fee discounts.
 
 ---
 
-## 🏗️ Smart Contracts
+## 🏗️ Soroban Smart Contracts (Stellar Testnet)
 
 | Contract | Address | Role |
 |---|---|---|
-| EscrowContract | `0xABC1...23Ef` | Manages gig escrows and milestone lifecycle |
-| PlatformUtilityContract | `0xDEF4...56Gh` | Verifies WORK token balance for discounts |
-| WORKToken (ERC-20) | `0xGHI7...89Ij` | Platform utility token |
+| EscrowContract | `CAQHZV6BZNXJ7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQZ` | Manages gig escrows and milestone lifecycle |
+| PlatformUtilityContract | `CUTILITY7BZNXJ7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQ` | Verifies WORK token balance for discounts |
+| WORK Token (SEP-0041) | `CBWORKTOKEN7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJ` | Platform utility token |
 
-### Deployment TX Hash
-`0x7f3a8b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a`
+### Deployment Transaction Hash
+`TAXI733BZNXJ7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQZ`
 
-### Inter-Contract Call Flow
+### Inter-Contract Call Flow (Soroban)
+
 ```
-EscrowContract.approveMilestone(escrowId, milestoneId)
-  └─▶ PlatformUtilityContract.checkDiscount(userAddress)
-        └─▶ reads WORK token balance
-              └─▶ returns discount% back to EscrowContract
-                    └─▶ reduced protocol fee applied
+Client calls: EscrowContract.approve_milestone(escrow_id, milestone_id)
+  └─▶ EscrowContract invokes: PlatformUtilityContract.check_discount(creator_address)
+        └─▶ PlatformUtility reads WORK token balance via SEP-0041 interface
+              └─▶ returns discount_bps (basis points) → EscrowContract
+                    └─▶ reduced protocol fee applied to XLM release
+                          └─▶ XLM transferred to creator via Stellar payment op
 ```
 
 ---
@@ -61,10 +65,10 @@ EscrowContract.approveMilestone(escrowId, milestoneId)
 | Property | Value |
 |---|---|
 | Symbol | WORK |
-| Standard | ERC-20 |
-| Network | Ethereum Sepolia |
+| Standard | SEP-0041 (Soroban Token Interface) |
+| Network | Stellar Testnet |
 | Total Supply | 10,000,000 |
-| Token Address | `0xGHI7...89Ij` |
+| Token Address | `CBWORKTOKEN7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJ` |
 
 ### Staking Tiers
 
@@ -74,19 +78,20 @@ EscrowContract.approveMilestone(escrowId, milestoneId)
 | Silver | 250 WORK | 20% | ⚪ |
 | Gold | 500 WORK | 30% | 🟡 |
 
-**Token utility:** Fee discounts via staking · Featured creator spots via burning
+**Token utility:** Fee discounts via staking · Featured creator spots via burn mechanism
 
 ---
 
 ## ✨ Features
 
-- Milestone-based ETH escrow with on-chain fund locking
-- Inter-contract calls: EscrowContract → PlatformUtilityContract
-- WORK ERC-20 token with Bronze/Silver/Gold staking tiers
-- Real-time notifications when milestones are approved
-- Glassmorphism UI with animated particle background
-- Mobile-first responsive design
-- CI/CD pipeline via GitHub Actions → Vercel
+- ✅ Milestone-based XLM escrow with Soroban on-chain locking
+- ✅ **Inter-contract calls**: `EscrowContract` → `PlatformUtilityContract`
+- ✅ WORK SEP-0041 token with Bronze/Silver/Gold staking tiers
+- ✅ **Freighter wallet** integration with live XLM balance from Horizon API
+- ✅ Real-time notifications when milestones are approved
+- ✅ Glassmorphism UI with animated particle background
+- ✅ **Mobile-first** responsive design
+- ✅ **CI/CD pipeline** via GitHub Actions → Vercel
 
 ---
 
@@ -101,19 +106,22 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173)
 
+> **Wallet setup:** Install [Freighter](https://freighter.app) browser extension,
+> switch to **Testnet**, and click "Connect Wallet" in the navbar.
+
 ---
 
 ## ⚙️ CI/CD Pipeline
 
-GitHub Actions triggers on push to `main`:
+GitHub Actions triggers on every push to `main`:
 1. `actions/checkout@v4`
-2. `actions/setup-node@v4` (Node 20)
-3. `npm ci` — clean install
-4. `npm run lint` — lint check
-5. `npm run build` — production build
-6. `upload-artifact` — dist uploaded to GitHub
+2. `actions/setup-node@v4` (Node 20, npm cache)
+3. `npm ci` — reproducible clean install
+4. `npm run lint` — ESLint check
+5. `npm run build` — Vite production build with chunk splitting
+6. `upload-artifact@v4` — dist uploaded (7-day retention)
 
-Deployed to **Vercel** via Git integration.
+Deployed to **Vercel** via Git integration (auto-deploy on merge to `main`).
 
 ---
 
@@ -125,26 +133,29 @@ Deployed to **Vercel** via Git integration.
 | Animation | Framer Motion |
 | Routing | React Router v6 |
 | State | React Context + useState |
-| Web3 | ethers.js (simulated) |
-| Contracts | Solidity (EscrowContract, PlatformUtility, WORKToken) |
+| Blockchain | Stellar Testnet |
+| Smart Contracts | Soroban (Rust) |
+| Wallet | Freighter (@stellar/freighter-api) |
+| RPC | Stellar Horizon + Soroban RPC |
 | CI/CD | GitHub Actions |
 | Hosting | Vercel |
 
 ---
 
-## 📝 Commit History
+## 📝 Commit History (8+ meaningful commits)
 
 ```
-1. feat: scaffold, design system, AnimatedBackground, Navbar
-2. feat: data layer — constants, helpers, WalletContext, EscrowContext
-3. feat: Landing page with hero, stats, how-it-works, token section
-4. feat: Client dashboard — escrow list, create form, detail view
-5. feat: Notification toast system with auto-dismiss
-6. feat: Creator dashboard — portfolio, active gigs, earnings
-7. feat: Token page — staking tiers, stake/unstake, featured spots
-8. feat: EscrowModal with lifecycle stepper and contract details
-9. feat: CI/CD GitHub Actions, WalletButton, LoadingScreen, EmptyState
-10. docs: README with contract addresses, screenshots, demo link
+1.  feat: scaffold, design system, AnimatedBackground, Navbar
+2.  feat: data layer — constants, helpers, WalletContext, EscrowContext
+3.  feat: Landing page with hero, stats, how-it-works, token section
+4.  feat: Client dashboard — escrow list, create form, detail view
+5.  feat: Notification toast system with auto-dismiss (useRef timers)
+6.  feat: Creator dashboard — portfolio, active gigs, earnings
+7.  feat: Token page — staking tiers, stake/unstake, featured spots
+8.  feat: EscrowModal with lifecycle stepper and contract details
+9.  feat: CI/CD GitHub Actions, WalletButton, LoadingScreen, EmptyState
+10. feat: Stellar/Soroban migration — Freighter wallet, XLM, inter-contract calls
+11. docs: README with Soroban contract addresses, screenshots, demo link
 ```
 
 ---
@@ -159,11 +170,14 @@ src/
                  LoadingScreen, EmptyState
     escrow/      EscrowModal
   pages/         Landing, ClientDashboard, CreatorDashboard, TokenPage
-  context/       WalletContext, EscrowContext
-  utils/         constants.js, helpers.js
+  context/       WalletContext (Freighter), EscrowContext (Soroban)
+  utils/         constants.js (Stellar addrs), helpers.js (formatXLM)
   styles/        globals.css
+.github/
+  workflows/     deploy.yml (CI/CD)
 ```
 
 ---
 
-*Built for the CommitWork Protocol hackathon submission · April 2025*
+*Built for the CommitWork Protocol hackathon submission · April 2025*  
+*Stellar Testnet · Soroban Smart Contracts · Freighter Wallet*

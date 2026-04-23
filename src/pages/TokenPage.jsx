@@ -21,8 +21,8 @@ const tierFeatures = {
 }
 
 const INIT_SLOTS = [
-  { id:1, name:'Alex Rivera',   address:'0xE5F6...E5F6', active:true,  daysLeft:3 },
-  { id:2, name:'0x7B3F...8C2A', address:'0x7B3F...8C2A', active:true,  daysLeft:5 },
+  { id:1, name:'Alex Rivera',   address:'GBXLK7...ZPJQ', active:true,  daysLeft:3 },
+  { id:2, name:'GCORK7...ZPJQ', address:'GCORK7...ZPJQ', active:true,  daysLeft:5 },
   { id:3, name:null,             address:null,             active:false, daysLeft:0 },
 ]
 
@@ -82,7 +82,7 @@ export default function TokenPage() {
               <span style={{ fontSize:'3rem', fontWeight:900, color:'var(--accent)', lineHeight:1 }}>WORK</span>
               <div>
                 <div style={{ fontWeight:600, fontSize:'1.1rem' }}>CommitWork Token</div>
-                <div style={{ ...S.secondary, fontSize:'0.85rem', marginTop:'4px' }}>ERC-20 · Ethereum Sepolia</div>
+                <div style={{ ...S.secondary, fontSize:'0.85rem', marginTop:'4px' }}>SEP-0041 · Stellar Testnet</div>
               </div>
             </div>
             <div style={{ display:'flex', gap:'12px', marginTop:'20px', flexWrap:'wrap' }}>

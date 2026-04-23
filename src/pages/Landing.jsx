@@ -246,7 +246,7 @@ export default function Landing() {
               marginTop: '16px',
               fontSize: '0.82rem',
             }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>2.4 ETH locked</span>
+              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>2400 XLM locked</span>
               <span style={{
                 background: 'var(--accent-dim)',
                 color: 'var(--accent)',
@@ -274,7 +274,7 @@ export default function Landing() {
           margin: '0 auto',
         }}>
           {[
-            { target: 847,   suffix: ' ETH', label: 'Total Value Locked' },
+            { target: 847,   suffix: " XLM", label: 'Total Value Locked' },
             { target: 1240,  suffix: '',     label: 'Gigs Completed' },
             { target: 94300, suffix: '+',    label: 'Creators Paid' },
           ].map(({ target, suffix, label }) => (
@@ -311,7 +311,7 @@ export default function Landing() {
             {
               num: '1',
               title: 'Post & Lock',
-              desc: 'Client posts gig details and locks ETH into the escrow contract',
+              desc: 'Client posts gig details and locks XLM into the Soroban escrow contract',
               icon: <LockIcon />,
               delay: 0,
             },
@@ -585,7 +585,7 @@ export default function Landing() {
           color: 'var(--text-muted)',
           fontSize: '0.82rem',
         }}>
-          Built on Ethereum Sepolia Testnet
+          Built on Stellar Testnet · Powered by Soroban
         </div>
 
         {/* Copyright */}

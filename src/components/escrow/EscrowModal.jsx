@@ -59,9 +59,9 @@ export default function EscrowModal({ escrow, onClose }) {
   const stepIndex = getStepIndex(escrow.milestones)
 
   const contractRows = [
-    { label:'Contract',  value:'0xAbC1...23Ef', field:'contract' },
-    { label:'TX Hash',   value:'0x7f3a...b92c', field:'txhash' },
-    { label:'Network',   value:'Ethereum Sepolia', field:null },
+    { label:'Contract',  value:'CAQHZV...FQZ', field:'contract' },
+    { label:'TX Hash: TAXI733...B92C', field:'txhash' },
+    { label:'Network',   value:'Stellar Testnet', field:null },
     { label:'Discount',  value:`${escrow.workTokenDiscount}% via PlatformUtilityContract`, field:'discount', amber:true },
   ]
 

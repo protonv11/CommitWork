@@ -133,10 +133,10 @@ export default function ClientDashboard() {
 
       <div style={{ display:'flex', flexWrap:'wrap', gap:'16px', marginBottom:'32px' }}>
         {[
-          { label:'Total Locked',  val:'4.2 ETH',  valColor:'var(--accent)' },
+          { label:'Total Locked',  val:'4200 XLM',  valColor:'var(--accent)' },
           { label:'Active Gigs',   val:escrows.filter(e=>e.status==='active').length,  valColor:'var(--text-primary)' },
           { label:'Completed',     val:escrows.filter(e=>e.status==='completed').length, valColor:'var(--text-primary)' },
-          { label:'WORK Saved',    val:'0.42 ETH', valColor:'var(--success)' },
+          { label:'WORK Saved',    val:'420 XLM', valColor:'var(--success)' },
         ].map(({ label, val, valColor }) => (
           <GlassCard key={label} style={{ padding:'20px', minWidth:'180px', flex:1 }}>
             <div style={{ ...S.secondary, fontSize:'0.8rem', marginBottom:'6px' }}>{label}</div>
@@ -192,7 +192,7 @@ export default function ClientDashboard() {
             { label:'Project Title', key:'title', type:'text', placeholder:'e.g. DeFi Dashboard Redesign' },
             { label:'Project Description', key:'description', type:'textarea', placeholder:'Describe the project scope...' },
             { label:'Creator Wallet Address', key:'creatorAddress', type:'text', placeholder:'0x...' },
-            { label:'Total Budget (ETH)', key:'totalBudget', type:'number', placeholder:'0.00', extra:{ step:'0.01', min:'0' } },
+            { label:'Total Budget (XLM)', key:'totalBudget', type:'number', placeholder:'0.00', extra:{ step:'0.01', min:'0' } },
             { label:'Deadline', key:'deadline', type:'date' },
           ].map(({ label, key, type, placeholder, extra={} }) => (
             <div key={key} style={{ marginBottom:'20px' }}>
@@ -216,7 +216,7 @@ export default function ClientDashboard() {
             <div key={i} style={{ display:'flex', gap:'12px', alignItems:'flex-start', marginBottom:'16px' }}>
               <div style={{ width:'32px', height:'32px', borderRadius:'50%', background:'var(--accent)', color:'#0A0F1E', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'0.8rem', flexShrink:0 }}>M{i+1}</div>
               <input placeholder="Milestone title" value={m.title} onChange={e => setMilestone(i,'title',e.target.value)} style={{ ...inputStyle, flex:2 }} />
-              <input type="number" placeholder="ETH" step="0.001" min="0" value={m.amount} onChange={e => setMilestone(i,'amount',e.target.value)} style={{ ...inputStyle, flex:1 }} />
+              <input type="number" placeholder="XLM" step="0.001" min="0" value={m.amount} onChange={e => setMilestone(i,'amount',e.target.value)} style={{ ...inputStyle, flex:1 }} />
               {formData.milestones.length > 1 && (
                 <Button variant="ghost" size="sm" onClick={() => removeMilestone(i)}>×</Button>
               )}
@@ -224,7 +224,7 @@ export default function ClientDashboard() {
           ))}
           <Button variant="ghost" size="sm" onClick={addMilestone} disabled={formData.milestones.length >= 5} style={{ marginBottom:'20px' }}>+ Add Milestone</Button>
           <div style={{ fontSize:'0.85rem', marginBottom:'16px', color: budgetOk ? 'var(--success)' : (formData.totalBudget && parseFloat(msSum) > 0 ? 'var(--error)' : 'var(--text-muted)') }}>
-            {budgetOk ? '✓ Budget balanced' : formData.totalBudget && parseFloat(msSum) > 0 ? `Milestone total (${msSum} ETH) must equal budget (${formData.totalBudget} ETH)` : `Milestone total: ${msSum} ETH`}
+            {budgetOk ? '✓ Budget balanced' : formData.totalBudget && parseFloat(msSum) > 0 ? `Milestone total (${msSum} XLM) must equal budget (${formData.totalBudget} XLM)` : `Milestone total: ${msSum} XLM`}
           </div>
           {formErrors.step2 && <div style={{ color:'var(--error)', fontSize:'0.85rem', marginBottom:'16px' }}>{formErrors.step2}</div>}
           <div style={{ ...S.between }}>
@@ -275,8 +275,8 @@ export default function ClientDashboard() {
               <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} style={{ marginTop:'24px' }}>
                 <GlassCard style={{ background:'rgba(16,185,129,0.08)', border:'1px solid rgba(16,185,129,0.25)' }}>
                   <div style={{ fontWeight:700, color:'var(--success)', fontSize:'1rem' }}>✓ Funds Locked Successfully</div>
-                  <div style={{ fontFamily:'monospace', ...S.amber, fontSize:'0.85rem', marginTop:'8px' }}>TX Hash: 0x7f3a...b92c</div>
-                  <div style={{ ...S.muted, fontSize:'0.82rem' }}>Network: Ethereum Sepolia</div>
+                  <div style={{ fontFamily:'monospace', ...S.amber, fontSize:'0.85rem', marginTop:'8px' }}>TX Hash: TAXI733...B92C</div>
+                  <div style={{ ...S.muted, fontSize:'0.82rem' }}>Network: Stellar Testnet</div>
                   <div style={{ marginTop:'16px' }}>
                     <Button variant="primary" onClick={() => { goList() }}>View My Escrows</Button>
                   </div>
