@@ -73,21 +73,6 @@ export default function ClientDashboard() {
     if (result) setShowSuccess(true)
   }
 
-  // Temporary test transaction for debugging
-  const testTransaction = async () => {
-    // Use placeholder data; replace with a valid creator address if wallet is connected
-    const testData = {
-      title: 'Test Project',
-      description: 'Temporary test transaction',
-      creatorAddress: wallet?.publicKey || 'GBHCRG5VDX5GMZZ474SQVZB7N5MULB6A3PCCH6OOYQCLA5EFIZ7WQLOB',
-      totalBudget: '10',
-      deadline: new Date().toISOString().split('T')[0],
-      milestones: [{ title: 'Milestone 1', amount: '10' }],
-    }
-    const result = await lockFunds(testData)
-    if (result) setShowSuccess(true)
-  }
-
   const handleApprove = async (escrowId, milestoneId) => {
     setActionLoading(p => ({ ...p, [milestoneId]: true }))
     await approveMilestone(escrowId, milestoneId)
@@ -146,10 +131,7 @@ export default function ClientDashboard() {
           <h1 style={{ fontWeight:800, fontSize:'1.8rem' }}>My Escrows</h1>
           <p style={{ ...S.secondary, fontSize:'0.9rem', marginTop:'4px' }}>{escrows.filter(e=>e.status==='active').length} active gigs</p>
         </div>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <Button variant="ghost" onClick={testTransaction} style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }} loading={loading}>Test Transaction</Button>
-          <Button variant="primary" onClick={goCreate}>Lock New Funds</Button>
-        </div>
+        <Button variant="primary" onClick={goCreate}>Lock New Funds</Button>
       </div>
 
       {MOCK_CREATOR_PROFILE.workTokenBalance >= 100 && (
