@@ -7,7 +7,7 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
   },
-  base: './',
+  base: '/',
   build: {
     outDir: 'dist',
     sourcemap: false,
