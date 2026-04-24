@@ -4,7 +4,7 @@
 > Clients lock **XLM**, creators ship work, funds release on approval —  
 > all on-chain via **Soroban smart contracts** on Stellar Testnet.
 
-![CI/CD](https://github.com/YOUR_USERNAME/commitwork/actions/workflows/deploy.yml/badge.svg)
+![CI/CD](https://github.com/protonv11/CommitWork/actions/workflows/deploy.yml/badge.svg)
 ![Network](https://img.shields.io/badge/network-Stellar%20Testnet-blue)
 ![Wallet](https://img.shields.io/badge/wallet-Freighter-orange)
 
@@ -98,8 +98,8 @@ Client calls: EscrowContract.approve_milestone(escrow_id, milestone_id)
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/commitwork
-cd commitwork
+git clone https://github.com/protonv11/CommitWork.git
+cd CommitWork
 npm install
 npm run dev
 ```
@@ -118,8 +118,9 @@ GitHub Actions triggers on every push to `main`:
 2. `actions/setup-node@v4` (Node 20, npm cache)
 3. `npm ci` — reproducible clean install
 4. `npm run lint` — ESLint check
-5. `npm run build` — Vite production build with chunk splitting
-6. `upload-artifact@v4` — dist uploaded (7-day retention)
+5. `npm run test` — Vitest unit tests to ensure application integrity
+6. `npm run build` — Vite production build with chunk splitting
+7. `upload-artifact@v4` — dist uploaded (7-day retention)
 
 Deployed to **Vercel** via Git integration (auto-deploy on merge to `main`).
 
@@ -144,7 +145,7 @@ Deployed to **Vercel** via Git integration (auto-deploy on merge to `main`).
 
 ## 📝 Commit History (8+ meaningful commits)
 
-```
+```text
 1.  feat: scaffold, design system, AnimatedBackground, Navbar
 2.  feat: data layer — constants, helpers, WalletContext, EscrowContext
 3.  feat: Landing page with hero, stats, how-it-works, token section
@@ -155,7 +156,9 @@ Deployed to **Vercel** via Git integration (auto-deploy on merge to `main`).
 8.  feat: EscrowModal with lifecycle stepper and contract details
 9.  feat: CI/CD GitHub Actions, WalletButton, LoadingScreen, EmptyState
 10. feat: Stellar/Soroban migration — Freighter wallet, XLM, inter-contract calls
-11. docs: README with Soroban contract addresses, screenshots, demo link
+11. fix: resolve destination invalid error with valid base32 testnet escrow account
+12. chore: add automated testing (vitest) to CI/CD pipeline
+13. docs: README with Soroban contract addresses, screenshots, demo link
 ```
 
 ---
