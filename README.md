@@ -12,7 +12,7 @@
 
 ## 🔗 Live Demo
 
-**[https://commitwork.vercel.app](https://commitwork.vercel.app)**  
+**[https://glittering-pie-1080b9.netlify.app](https://glittering-pie-1080b9.netlify.app)**  
 Network: **Stellar Testnet** · Wallet: **Freighter**
 
 ---
@@ -20,10 +20,10 @@ Network: **Stellar Testnet** · Wallet: **Freighter**
 ## 📸 Screenshots
 
 ### Mobile Responsive View
-> _(Add screenshot after deployment)_
+<img src="public/mobile-screenshot.png" width="300" alt="Mobile Responsive View" />
 
 ### CI/CD Pipeline — GitHub Actions
-> _(Add screenshot of passing workflow)_
+![CI/CD Pipeline](https://github.com/protonv11/CommitWork/actions/workflows/deploy.yml/badge.svg)
 
 ---
 
