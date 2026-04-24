@@ -69,7 +69,7 @@ export default function Landing() {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        padding: '0 24px',
+        padding: '80px 24px 0',
         position: 'relative',
       }}>
 
@@ -98,7 +98,7 @@ export default function Landing() {
             animate={{ opacity: [1, 0.2, 1] }}
             transition={{ duration: 1.4, repeat: Infinity }}
           />
-          Web3 Escrow Protocol · Live on Sepolia Testnet
+          Web3 Escrow Protocol · Live on Stellar Testnet
         </div>
 
         {/* [B] Heading — three lines */}

@@ -96,10 +96,10 @@ export default function Navbar() {
         <div
           style={{
             display: 'flex',
-            gap: '32px',
+            gap: '24px',
             alignItems: 'center',
           }}
-          className="desktop-nav"
+          className="desktop-nav nav-desktop"
         >
           {navLinks.map((link) => (
             <Link

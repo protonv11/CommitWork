@@ -113,7 +113,7 @@ export default function TokenPage() {
           {MOCK_TOKEN_DATA.tiers.map(t => (
             <div key={t.name} style={{ flex:1, minWidth:'240px' }}>
               <GlassCard hover style={{ position:'relative', overflow:'hidden', borderTop:`3px solid ${t.color}`, padding:'24px' }}>
-                {stakedAmt >= t.minStake && (
+                {tier?.name === t.name && (
                   <span style={{ position:'absolute', top:'12px', right:'12px', background:`${t.color}33`, color:t.color, fontSize:'0.7rem', fontWeight:700, padding:'3px 10px', borderRadius:'var(--radius-pill)' }}>Current Tier</span>
                 )}
                 <div style={{ color:t.color, fontWeight:800, fontSize:'1.2rem' }}>{t.name}</div>
@@ -132,7 +132,10 @@ export default function TokenPage() {
                 <div style={{ marginTop:'20px' }}>
                   {stakedAmt >= t.minStake
                     ? <Button variant="ghost" disabled>✓ Your Tier</Button>
-                    : <Button variant="primary" onClick={() => setStakeInput(String(t.minStake - stakedAmt))}>Stake to Unlock</Button>
+                    : <Button variant="primary" onClick={() => {
+                        setStakeInput(String(t.minStake - stakedAmt));
+                        document.getElementById('staking-form')?.scrollIntoView({ behavior: 'smooth' });
+                      }}>Stake to Unlock</Button>
                   }
                 </div>
               </GlassCard>
@@ -144,7 +147,7 @@ export default function TokenPage() {
       {/* ── SECTION 3: STAKING PANEL ── */}
       <div style={{ display:'flex', flexWrap:'wrap', gap:'32px', marginBottom:'40px' }}>
         {/* Left: stake/unstake */}
-        <div style={{ flex:1, minWidth:'280px' }}>
+        <div style={{ flex:1, minWidth:'280px' }} id="staking-form">
           <GlassCard style={{ padding:'24px' }}>
             <div style={{ fontWeight:700, fontSize:'1.1rem', marginBottom:'20px' }}>Stake WORK Tokens</div>
             <div style={S.between}>

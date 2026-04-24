@@ -34,11 +34,11 @@ const initForm = { title:'', description:'', creatorAddress:'', totalBudget:'', 
 
 export default function ClientDashboard() {
   const { escrows, events, loading, lockFunds, approveMilestone, releaseFunds } = useEscrow()
-  const { isConnected } = useWallet()
+  const wallet = useWallet()
   const [view, setView] = useState('list')
   const [selectedEscrow, setSelectedEscrow] = useState(null)
   const [currentStep, setCurrentStep] = useState(1)
-  const [formData, setFormData] = useState(initForm)
+  const [formData, setFormData] = useState({ ...initForm, milestones: [{ title:'', amount:'' }] })
   const [formErrors, setFormErrors] = useState({})
   const [actionLoading, setActionLoading] = useState({})
   const [showSuccess, setShowSuccess] = useState(false)
@@ -51,7 +51,7 @@ export default function ClientDashboard() {
   const msSum = formData.milestones.reduce((a, m) => a + (parseFloat(m.amount) || 0), 0).toFixed(3)
   const budgetOk = formData.totalBudget && parseFloat(msSum) === parseFloat(formData.totalBudget)
 
-  const goCreate = () => { setFormData(initForm); setFormErrors({}); setCurrentStep(1); setView('create') }
+  const goCreate = () => { setFormData({ ...initForm, milestones: [{ title:'', amount:'' }] }); setFormErrors({}); setCurrentStep(1); setView('create') }
   const goList = () => { setView('list'); setShowSuccess(false) }
 
   const validateStep1 = () => {
@@ -73,6 +73,21 @@ export default function ClientDashboard() {
     if (result) setShowSuccess(true)
   }
 
+  // Temporary test transaction for debugging
+  const testTransaction = async () => {
+    // Use placeholder data; replace with a valid creator address if wallet is connected
+    const testData = {
+      title: 'Test Project',
+      description: 'Temporary test transaction',
+      creatorAddress: wallet?.publicKey || 'GBHCRG5VDX5GMZZ474SQVZB7N5MULB6A3PCCH6OOYQCLA5EFIZ7WQLOB',
+      totalBudget: '10',
+      deadline: new Date().toISOString().split('T')[0],
+      milestones: [{ title: 'Milestone 1', amount: '10' }],
+    }
+    const result = await lockFunds(testData)
+    if (result) setShowSuccess(true)
+  }
+
   const handleApprove = async (escrowId, milestoneId) => {
     setActionLoading(p => ({ ...p, [milestoneId]: true }))
     await approveMilestone(escrowId, milestoneId)
@@ -91,7 +106,7 @@ export default function ClientDashboard() {
   const labelStyle = { display:'block', color:'var(--text-secondary)', fontSize:'0.85rem', marginBottom:'6px', fontWeight:500 }
 
   // ── STEP INDICATOR ──────────────────────────────────────────
-  const StepIndicator = () => (
+  const renderStepIndicator = () => (
     <div style={{ display:'flex', marginBottom:'40px', position:'relative' }}>
       {['Project Details','Milestones','Review & Lock'].map((label, i) => {
         const n = i + 1
@@ -100,7 +115,20 @@ export default function ClientDashboard() {
         return (
           <div key={n} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', position:'relative' }}>
             {i < 2 && <div style={{ position:'absolute', top:'19px', left:'50%', right:'-50%', height:'2px', background: done ? 'var(--accent)' : 'var(--border-glass)', zIndex:0 }} />}
-            <div style={{ width:'40px', height:'40px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'0.9rem', zIndex:1, background: done ? 'var(--accent)' : active ? 'var(--accent-dim)' : 'transparent', border: done ? 'none' : `2px solid ${active ? 'var(--accent)' : 'var(--border-glass)'}`, color: done ? '#0A0F1E' : active ? 'var(--accent)' : 'var(--text-muted)' }}>
+            <div style={{
+              width:'40px',
+              height:'40px',
+              borderRadius:'50%',
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+              fontWeight:700,
+              fontSize:'0.9rem',
+              zIndex:1,
+              background: done ? 'var(--accent)' : active ? 'var(--accent-dim)' : 'rgba(255,255,255,0.03)',
+              border: done ? 'none' : `2px solid ${active ? 'var(--accent)' : 'var(--border-glass)'}`,
+              color: done ? '#0A0F1E' : active ? 'var(--accent)' : 'var(--text-muted)'
+            }}>
               {done ? <CheckSVG color="#0A0F1E" /> : n}
             </div>
             <span style={{ fontSize:'0.75rem', marginTop:'6px', color: active ? 'var(--accent)' : 'var(--text-muted)', fontWeight: active ? 600 : 400 }}>{label}</span>
@@ -111,14 +139,17 @@ export default function ClientDashboard() {
   )
 
   // ── LIST VIEW ───────────────────────────────────────────────
-  const ListView = () => (
+  const renderListView = () => (
     <motion.div key="list" initial={{ opacity:0 }} animate={{ opacity:1 }}>
       <div style={{ ...S.between, marginBottom:'32px' }}>
         <div>
           <h1 style={{ fontWeight:800, fontSize:'1.8rem' }}>My Escrows</h1>
           <p style={{ ...S.secondary, fontSize:'0.9rem', marginTop:'4px' }}>{escrows.filter(e=>e.status==='active').length} active gigs</p>
         </div>
-        <Button variant="primary" onClick={goCreate}>Lock New Funds</Button>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <Button variant="ghost" onClick={testTransaction} style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }} loading={loading}>Test Transaction</Button>
+          <Button variant="primary" onClick={goCreate}>Lock New Funds</Button>
+        </div>
       </div>
 
       {MOCK_CREATOR_PROFILE.workTokenBalance >= 100 && (
@@ -178,20 +209,20 @@ export default function ClientDashboard() {
   )
 
   // ── CREATE VIEW ─────────────────────────────────────────────
-  const CreateView = () => (
+  const renderCreateView = () => (
     <motion.div key="create" initial={{ opacity:0, x:40 }} animate={{ opacity:1, x:0 }}>
       <div style={{ display:'flex', alignItems:'center', marginBottom:'32px', gap:'16px' }}>
         <Button variant="ghost" size="sm" onClick={goList}>← Back</Button>
         <h2 style={{ fontWeight:700, fontSize:'1.6rem' }}>Lock Funds in Escrow</h2>
       </div>
-      <StepIndicator />
+      {renderStepIndicator()}
 
       {currentStep === 1 && (
         <GlassCard>
           {[
             { label:'Project Title', key:'title', type:'text', placeholder:'e.g. DeFi Dashboard Redesign' },
             { label:'Project Description', key:'description', type:'textarea', placeholder:'Describe the project scope...' },
-            { label:'Creator Wallet Address', key:'creatorAddress', type:'text', placeholder:'0x...' },
+            { label:'Creator Wallet Address', key:'creatorAddress', type:'text', placeholder:'GA...' },
             { label:'Total Budget (XLM)', key:'totalBudget', type:'number', placeholder:'0.00', extra:{ step:'0.01', min:'0' } },
             { label:'Deadline', key:'deadline', type:'date' },
           ].map(({ label, key, type, placeholder, extra={} }) => (
@@ -250,13 +281,13 @@ export default function ClientDashboard() {
           {formData.milestones.map((m, i) => (
             <div key={i} style={{ ...S.between, marginBottom:'10px' }}>
               <span style={S.secondary}>M{i+1} {m.title}</span>
-              <span style={S.amberBold}>{m.amount} ETH</span>
+              <span style={S.amberBold}>{m.amount} XLM</span>
             </div>
           ))}
           <div style={S.divider} />
           <div style={{ ...S.between, marginBottom:'20px' }}>
             <span style={{ fontWeight:700, fontSize:'1.1rem' }}>Total</span>
-            <span style={{ ...S.amberBold, fontSize:'1.3rem' }}>{formData.totalBudget} ETH</span>
+            <span style={{ ...S.amberBold, fontSize:'1.3rem' }}>{formData.totalBudget} XLM</span>
           </div>
 
           {MOCK_CREATOR_PROFILE.workTokenBalance >= 100 && (
@@ -290,7 +321,7 @@ export default function ClientDashboard() {
   )
 
   // ── DETAIL VIEW ─────────────────────────────────────────────
-  const DetailView = () => {
+  const renderDetailView = () => {
     if (!selectedEscrow) return null
     const e = selectedEscrow
     const escrowEvents = events.filter(ev => ev.escrowId === e.id).slice(0, 8)
@@ -354,7 +385,7 @@ export default function ClientDashboard() {
                   <div style={{ background:'var(--accent-dim)', border:'1px solid var(--accent)', borderRadius:'8px', padding:'12px 16px', display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'12px' }}>
                     <div>
                       <div style={{ ...S.amber, fontWeight:600 }}>Ready to Claim</div>
-                      <div style={{ ...S.amberBold, fontSize:'1.1rem' }}>{m.amount} ETH</div>
+                      <div style={{ ...S.amberBold, fontSize:'1.1rem' }}>{m.amount} XLM</div>
                     </div>
                     <Button variant="primary" size="sm" loading={actionLoading[m.id]} onClick={() => handleRelease(e.id, m.id)}>Release Funds</Button>
                   </div>
@@ -384,7 +415,7 @@ export default function ClientDashboard() {
                 <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
                   <span style={{ fontSize:'0.75rem', padding:'2px 8px', borderRadius:'4px', background:`${col}26`, color:col, fontWeight:600 }}>{ev.type}</span>
                   <span style={{ ...S.secondary, fontSize:'0.82rem' }}>
-                    {ev.milestone ? `Milestone ${ev.milestone}` : ev.amount ? `${ev.amount} ETH` : ''}
+                    {ev.milestone ? `Milestone ${ev.milestone}` : ev.amount ? `${ev.amount} XLM` : ''}
                   </span>
                 </div>
                 <span style={S.muted}>{formatTimeAgo(ev.timestamp)}</span>
@@ -399,9 +430,9 @@ export default function ClientDashboard() {
   return (
     <div style={{ paddingTop:'80px', minHeight:'100vh', padding:'80px 24px 48px', maxWidth:'1100px', margin:'0 auto' }}>
       <AnimatePresence mode="wait">
-        {view === 'list'   && <ListView key="list" />}
-        {view === 'create' && <CreateView key="create" />}
-        {view === 'detail' && <DetailView key="detail" />}
+        {view === 'list'   && renderListView()}
+        {view === 'create' && renderCreateView()}
+        {view === 'detail' && renderDetailView()}
       </AnimatePresence>
     </div>
   )

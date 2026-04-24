@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useCallback } from "react"
 import { MOCK_ESCROWS, MOCK_EVENTS, STELLAR_NETWORK, CONTRACTS } from "../utils/constants"
 import { generateId } from "../utils/helpers"
+import { lockFundsOnChain } from "../utils/stellarTx"
+import { useWallet } from "./WalletContext"
 
 // ── Soroban contract simulation layer ────────────────────────────────────────
 // In production, these call the Stellar Soroban RPC with StellarSdk.
@@ -25,6 +27,7 @@ async function checkDiscount(address) {
 const EscrowContext = createContext(null)
 
 export function EscrowProvider({ children }) {
+  const wallet                         = useWallet()
   const [escrows, setEscrows]         = useState(MOCK_ESCROWS)
   const [events, setEvents]           = useState(MOCK_EVENTS)
   const [notifications, setNotifs]    = useState([])
@@ -56,20 +59,37 @@ export function EscrowProvider({ children }) {
     ))
   }
 
-  // ── lockFunds — calls EscrowContract.lock_funds on Soroban ──────────────
+  // ── lockFunds — real Stellar payment to escrow holding account ──────────
   const lockFunds = useCallback(async (formData) => {
     setLoading(true)
-    // Soroban call: EscrowContract.lock_funds(creator, total, milestones[])
-    const { txHash } = await sorobanInvoke(CONTRACTS.escrow, "lock_funds", {
-      creator:    formData.creatorAddress,
-      amount_xlm: formData.totalBudget,
-      milestones: formData.milestones,
-    }, 1200)
+    let txHash = null
+
+    try {
+      if (!wallet?.address || !wallet?.isConnected) {
+        throw new Error("Wallet not connected. Please connect Freighter first.")
+      }
+
+      // Execute a REAL on-chain payment via stellar-sdk + Freighter
+      txHash = await lockFundsOnChain(
+        wallet.address,
+        formData.totalBudget,
+        `CW:${formData.title.slice(0, 20)}`
+      )
+
+      // Refresh the wallet balance so UI reflects the deduction
+      if (wallet.fetchBalance) await wallet.fetchBalance(wallet.address)
+
+    } catch (err) {
+      console.error("[lockFunds] Transaction failed:", err)
+      setLoading(false)
+      alert(`Transaction failed: ${err.message}`)
+      return null
+    }
 
     const newEscrow = {
       id:                generateId("ESC"),
       title:             formData.title,
-      client:            "GBXLK7BZNXJ7LKUMQMQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQZ2FQZPJQ",
+      client:            wallet.address,
       creator:           formData.creatorAddress || "GUNKNOWN",
       totalAmount:       formData.totalBudget,
       currency:          "XLM",
@@ -89,7 +109,7 @@ export function EscrowProvider({ children }) {
     pushNotif("funds-locked", `Funds locked for "${formData.title}"`, newEscrow.id)
     setLoading(false)
     return newEscrow
-  }, [])
+  }, [wallet])
 
   // ── submitMilestone — calls EscrowContract.submit_milestone ──────────────
   const submitMilestone = useCallback(async (escrowId, milestoneId) => {

@@ -100,18 +100,34 @@ export default function CreatorDashboard() {
 
       {/* ── TAB NAV ── */}
       <div style={{ display:'flex', borderBottom:'1px solid var(--border-glass)', marginBottom:'32px', overflowX:'auto', whiteSpace:'nowrap' }}>
-        {tabs.map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            style={{ background:'none', border:'none', color: activeTab===tab ? 'var(--text-primary)' : 'var(--text-secondary)', padding:'12px 24px', cursor:'pointer', fontSize:'0.95rem', fontWeight: activeTab===tab ? 600 : 500, position:'relative', transition:'color 0.2s' }}
-          >
-            {tabLabels[tab]}
-            {activeTab === tab && (
-              <motion.div layoutId="tab-underline" style={{ position:'absolute', bottom:'-1px', left:0, right:0, height:'2px', background:'var(--accent)' }} />
-            )}
-          </button>
-        ))}
+        {tabs.map(tab => {
+          const id = tab.toLowerCase().split(' ')[0]
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(id)}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: '12px 24px',
+                color: activeTab === id ? 'var(--accent)' : 'var(--text-secondary)',
+                fontWeight: activeTab === id ? 700 : 500,
+                cursor: 'pointer',
+                position: 'relative',
+                fontSize: '0.95rem',
+                transition: 'color 0.2s'
+              }}
+            >
+              {tab}
+              {activeTab === id && (
+                <motion.div
+                  layoutId="tab-underline"
+                  style={{ position:'absolute', bottom:0, left:0, right:0, height:'2px', background:'var(--accent)', borderRadius:'2px' }}
+                />
+              )}
+            </button>
+          )
+        })}
       </div>
 
       <AnimatePresence mode="wait">
