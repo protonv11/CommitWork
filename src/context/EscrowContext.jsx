@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react"
+import { createContext, useContext, useState, useCallback } from "react"
 import { MOCK_ESCROWS, MOCK_EVENTS, STELLAR_NETWORK, CONTRACTS } from "../utils/constants"
 import { generateId } from "../utils/helpers"
 import { lockFundsOnChain } from "../utils/stellarTx"
@@ -62,7 +62,7 @@ export function EscrowProvider({ children }) {
   // ── lockFunds — real Stellar payment to escrow holding account ──────────
   const lockFunds = useCallback(async (formData) => {
     setLoading(true)
-    let txHash = null
+    let txHash;
 
     try {
       if (!wallet?.address || !wallet?.isConnected) {
@@ -179,6 +179,7 @@ export function EscrowProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useEscrow() {
   const ctx = useContext(EscrowContext)
   if (!ctx) throw new Error("useEscrow must be used inside EscrowProvider")

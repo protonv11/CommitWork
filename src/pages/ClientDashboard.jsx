@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import GlassCard  from '../components/ui/GlassCard'
 import Button     from '../components/ui/Button'
 import Badge      from '../components/ui/Badge'
 import { useEscrow } from '../context/EscrowContext'
-import { useWallet } from '../context/WalletContext'
+
 import { MOCK_CREATOR_PROFILE } from '../utils/constants'
 import { truncateAddress, formatETH, formatDate, formatTimeAgo, getMilestoneProgress } from '../utils/helpers'
 
@@ -34,7 +34,7 @@ const initForm = { title:'', description:'', creatorAddress:'', totalBudget:'', 
 
 export default function ClientDashboard() {
   const { escrows, events, loading, lockFunds, approveMilestone, releaseFunds } = useEscrow()
-  const wallet = useWallet()
+
   const [view, setView] = useState('list')
   const [selectedEscrow, setSelectedEscrow] = useState(null)
   const [currentStep, setCurrentStep] = useState(1)

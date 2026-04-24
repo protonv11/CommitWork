@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import GlassCard from '../ui/GlassCard'
+
 import Button    from '../ui/Button'
 import Badge     from '../ui/Badge'
-import { truncateAddress, formatETH, formatDate } from '../../utils/helpers'
+import { formatETH } from '../../utils/helpers'
 
 const S = {
   between: { display:'flex', justifyContent:'space-between', alignItems:'center' },
@@ -115,7 +115,7 @@ export default function EscrowModal({ escrow, onClose }) {
 
             {/* MILESTONE BREAKDOWN */}
             <h3 style={{ fontWeight:600, marginBottom:'16px' }}>Milestones</h3>
-            {escrow.milestones.map((m, i) => (
+            {escrow.milestones.map((m) => (
               <div key={m.id} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'12px 16px', background:'rgba(255,255,255,0.03)', borderRadius:'8px', marginBottom:'8px', flexWrap:'wrap', gap:'8px' }}>
                 <span style={{ fontWeight:500 }}>{m.title}</span>
                 <div style={{ display:'flex', gap:'12px', alignItems:'center' }}>

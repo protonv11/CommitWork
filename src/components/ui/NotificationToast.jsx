@@ -38,10 +38,11 @@ export default function NotificationToast() {
         }, 5000)
       }
     })
+    const timers = timerRefs.current
     return () => {
-      Object.values(timerRefs.current).forEach(t => clearTimeout(t))
+      Object.values(timers).forEach(t => clearTimeout(t))
     }
-  }, [notifications])
+  }, [notifications, dismissNotif, unread])
 
   return (
     <div style={{ position:'fixed', top:'80px', right:'24px', zIndex:999, display:'flex', flexDirection:'column', gap:'12px', pointerEvents:'none' }}>

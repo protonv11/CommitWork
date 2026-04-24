@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import GlassCard from '../components/ui/GlassCard'
 import Button    from '../components/ui/Button'
 import Badge     from '../components/ui/Badge'
-import { MOCK_CREATOR_PROFILE, MOCK_TOKEN_DATA } from '../utils/constants'
+import { MOCK_TOKEN_DATA } from '../utils/constants'
 import { getCurrentTier } from '../utils/helpers'
 
 // ─── Inline animated counter ────────────────────────────────────────────────

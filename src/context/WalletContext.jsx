@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import { STELLAR_NETWORK } from "../utils/constants"
 import {
   isConnected,
@@ -152,4 +152,5 @@ export function WalletProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useWallet = () => useContext(WalletContext)

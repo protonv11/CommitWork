@@ -46,7 +46,7 @@ export async function lockFundsOnChain(senderAddress, amountXlm, memo) {
   } catch (e) {
     // Account likely does not exist – create/fund via Friendbot
     await fetch(`https://friendbot.stellar.org?addr=${ESCROW_HOLDING_ACCOUNT}`)
-    console.info('[stellarTx] Created escrow holding account via Friendbot')
+    console.info('[stellarTx] Created escrow holding account via Friendbot, error was:', e.message)
   }
 
   // 3. Build transaction
@@ -86,6 +86,6 @@ export async function lockFundsOnChain(senderAddress, amountXlm, memo) {
     console.error('[stellarTx] Submission error:', submitErr)
     // Horizon returns error with result_xdr, we surface the message
     const errMsg = submitErr?.response?.data?.extras?.result_codes?.operations?.[0] || submitErr.message
-    throw new Error('Transaction submission failed: ' + errMsg)
+    throw new Error('Transaction submission failed: ' + errMsg, { cause: submitErr })
   }
 }

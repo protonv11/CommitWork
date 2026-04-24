@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from './Button';
+
 import WalletButton from './WalletButton';
 
 const navLinks = [
@@ -36,9 +36,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location]);
 
   const navStyle = {
     position: 'fixed',
@@ -201,6 +198,7 @@ export default function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
+                  onClick={() => setMenuOpen(false)}
                   style={{
                     ...linkStyle(location.pathname === link.to),
                     padding: '14px 0',

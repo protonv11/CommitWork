@@ -24,7 +24,7 @@ const cardGradient = tags => {
 }
 
 export default function CreatorDashboard() {
-  const { escrows, submitMilestone, releaseFunds, approveMilestone, loading } = useEscrow()
+  const { escrows, submitMilestone, releaseFunds, approveMilestone } = useEscrow()
   const [activeTab, setActiveTab] = useState('portfolio')
   const [actionLoading, setActionLoading] = useState({})
 
@@ -32,7 +32,7 @@ export default function CreatorDashboard() {
   useEffect(() => {
     const timer = setTimeout(() => { approveMilestone('ESC-001', 'M2') }, 3000)
     return () => clearTimeout(timer)
-  }, [])
+  }, [approveMilestone])
 
   const handleSubmit = async (escrowId, milestoneId) => {
     setActionLoading(p => ({ ...p, [milestoneId]:true }))
@@ -57,7 +57,7 @@ export default function CreatorDashboard() {
   )
 
   const tabs = ['portfolio','active','earnings']
-  const tabLabels = { portfolio:'Portfolio', active:'Active Gigs', earnings:'Earnings' }
+
 
   return (
     <div style={{ paddingTop:'80px', minHeight:'100vh', padding:'80px 24px 48px', maxWidth:'1100px', margin:'0 auto' }}>
