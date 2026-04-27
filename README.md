@@ -30,12 +30,6 @@ Network: **Stellar Testnet** · Wallet: **Freighter**
 
 ---
 
-## 🎥 Video Demo
-
-**[Watch the 1-minute demo on YouTube](https://www.youtube.com/watch?v=VIDEO_ID)**
-
----
-
 ## 📋 Overview
 
 CommitWork is a Web3 escrow platform powered by **Soroban** smart contracts on Stellar.
