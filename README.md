@@ -19,11 +19,20 @@ Network: **Stellar Testnet** · Wallet: **Freighter**
 
 ## 📸 Screenshots
 
+### Web Version
+![Web Version](public/web-screenshot.png)
+
+### Working Demo (GIF)
+![Working Demo](public/working.gif)
+
 ### Mobile Responsive View
 <img src="public/mobile-screenshot.png" width="300" alt="Mobile Responsive View" />
 
-### CI/CD Pipeline — GitHub Actions
-![CI/CD Pipeline](https://github.com/protonv11/CommitWork/actions/workflows/deploy.yml/badge.svg)
+---
+
+## 🎥 Video Demo
+
+**[Watch the 1-minute demo on YouTube](https://www.youtube.com/watch?v=VIDEO_ID)**
 
 ---
 

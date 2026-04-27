@@ -160,6 +160,9 @@ export default function Landing() {
           <Button variant="ghost" size="lg" onClick={() => navigate('/creator')}>
             Find Work as Creator
           </Button>
+          <Button variant="outline" size="lg" onClick={() => window.open('https://www.youtube.com/watch?v=VIDEO_ID', '_blank')}>
+            Watch 1-Min Demo
+          </Button>
         </motion.div>
 
         {/* [E] Mock escrow card */}
